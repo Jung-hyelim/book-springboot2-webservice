@@ -1,5 +1,6 @@
 package com.jhl.book.springboot.web;
 
+import com.jhl.book.springboot.config.auth.LoginUser;
 import com.jhl.book.springboot.config.auth.dto.SessionUser;
 import com.jhl.book.springboot.service.PostsService;
 import com.jhl.book.springboot.web.dto.PostsResponseDto;
@@ -16,13 +17,13 @@ import javax.servlet.http.HttpSession;
 public class IndexController {
 
     private final PostsService postsService;
-    private final HttpSession httpSession;
+//    private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, @LoginUser SessionUser user) {
         model.addAttribute("posts", postsService.findAllDesc());
 
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+//        SessionUser user = (SessionUser) httpSession.getAttribute("user");    // @LoginUser 어노테이션으로 개선
         if(user != null) {
             model.addAttribute("userName", user.getName());
         }
